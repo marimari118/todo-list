@@ -24,7 +24,14 @@
                 @foreach($tasks as $task)
                     <tr>
                         <th class="bg-white" scope="row" rowspan="2">{{ $task->id }}</th>
-                        <td>{{ $task->title }}</td>
+                        <td class="d-flex justify-content-between">
+                            <span>{{ $task->title }}</span>
+                            <form action="/delete" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $task->id }}">
+                                <input class="btn p-1 px-2 bg-danger text-white" type="submit" value="Delete">
+                            </form>
+                        </td>
                     </tr>
 
                     <tr>
