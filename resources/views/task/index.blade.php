@@ -35,7 +35,8 @@
         </table>
     </main>
 
-    <form class="p-2">
+    <form class="p-2" action="/create" method="POST">
+        @csrf
         <div class="mb-3">
             <div class="mb-2">
                 <label class="form-label" for="title">Title</label>

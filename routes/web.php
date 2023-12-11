@@ -14,4 +14,5 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\TaskController@index');
+Route::get('/', [TaskController::class, 'index']);
+Route::post('/create', [TaskController::class, 'create']);
