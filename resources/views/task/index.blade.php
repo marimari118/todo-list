@@ -7,8 +7,8 @@
     <title>Todo List</title>
 </head>
 <body>
-    <header class="p-2">
-        <h1 class="h2 ms-2">Todo List</h1>
+    <header class="p-2 bg-dark">
+        <h1 class="h2 m-0 ms-2 text-white">Todo List</h1>
     </header>
 
     <main>
@@ -30,12 +30,12 @@
                                 <form action="/edit" method="post">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $task->id }}">
-                                    <input class="btn p-1 px-2 bg-dark text-white" type="submit" value="Edit">
+                                    <input class="btn p-0 px-1 bg-secondary text-white" type="submit" value="Edit">
                                 </form>
                                 <form action="/delete" method="post">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $task->id }}">
-                                    <input class="btn p-1 px-2 bg-danger text-white" type="submit" value="Delete">
+                                    <input class="btn p-0 px-1 bg-danger text-white" type="submit" value="Delete">
                                 </form>
                             </div>
                         </td>
