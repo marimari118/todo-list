@@ -7,6 +7,10 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
+    const VALIDATE_ID = 'required|exists:tasks,id';
+    const VALIDATE_TITLE = 'required|max:64';
+    const VALIDATE_CONTENT = 'required|max:256';
+
     public function index () 
     {
         $tasks = Task::all();
@@ -17,7 +21,7 @@ class TaskController extends Controller
     public function edit (Request $request) 
     {
         $validated = $request->validate([
-            'id' => 'required|exists:tasks,id'
+            'id' => self::VALIDATE_ID
         ]);
 
         if ($validated) {
@@ -31,8 +35,8 @@ class TaskController extends Controller
     public function create (Request $request) 
     {
         $validated = $request->validate([
-            'title' => 'required|max:64',
-            'content' => 'required|max:256'
+            'title' => self::VALIDATE_TITLE,
+            'content' => self::VALIDATE_CONTENT
         ]);
 
         if ($validated) {
@@ -48,9 +52,9 @@ class TaskController extends Controller
     public function update (Request $request) 
     {
         $validated = $request->validate([
-            'id' => 'required|exists:tasks,id',
-            'title' => 'required|max:64',
-            'content' => 'required|max:256'
+            'id' => self::VALIDATE_ID,
+            'title' => self::VALIDATE_TITLE,
+            'content' => self::VALIDATE_CONTENT
         ]);
 
         if ($validated) {
@@ -66,7 +70,7 @@ class TaskController extends Controller
     public function delete (Request $request) 
     {
         $validated = $request->validate([
-            'id' => 'required|exists:tasks,id'
+            'id' => self::VALIDATE_ID
         ]);
 
         if ($validated) {
