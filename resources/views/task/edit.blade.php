@@ -7,8 +7,8 @@
     <title>Todo List</title>
 </head>
 <body>
-    <header class="p-2">
-        <h1 class="h2 ms-2">Todo List</h1>
+    <header class="p-2 bg-dark">
+        <h1 class="h2 m-0 ms-2 text-white">Todo List</h1>
     </header>
 
     <main>
