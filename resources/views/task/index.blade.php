@@ -26,11 +26,18 @@
                         <th class="bg-white" scope="row" rowspan="2">{{ $task->id }}</th>
                         <td class="d-flex justify-content-between">
                             <span>{{ $task->title }}</span>
-                            <form action="/delete" method="post">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $task->id }}">
-                                <input class="btn p-1 px-2 bg-danger text-white" type="submit" value="Delete">
-                            </form>
+                            <div class="d-flex gap-1">
+                                <form action="/edit" method="post">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $task->id }}">
+                                    <input class="btn p-1 px-2 bg-dark text-white" type="submit" value="Edit">
+                                </form>
+                                <form action="/delete" method="post">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $task->id }}">
+                                    <input class="btn p-1 px-2 bg-danger text-white" type="submit" value="Delete">
+                                </form>
+                            </div>
                         </td>
                     </tr>
 
@@ -40,21 +47,21 @@
                 @endforeach
             </tbody>
         </table>
-    </main>
 
-    <form class="p-2" action="/create" method="POST">
-        @csrf
-        <div class="mb-3">
-            <div class="mb-2">
-                <label class="form-label" for="title">Title</label>
-                <input id="title" class="form-control" type="text" name="title">
+        <form class="p-2" action="/create" method="POST">
+            @csrf
+            <div class="mb-3">
+                <div class="mb-2">
+                    <label class="form-label" for="title">Title</label>
+                    <input id="title" class="form-control" type="text" name="title">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="content">Content</label>
+                    <textarea id="content" class="form-control" name="content" rows="8"></textarea>
+                </div>
             </div>
-            <div class="mb-2">
-                <label class="form-label" for="content">Content</label>
-                <textarea id="content" class="form-control" name="content" rows="8"></textarea>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </main>
 </body>
 </html>
