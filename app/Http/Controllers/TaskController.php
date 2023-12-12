@@ -16,14 +16,13 @@ class TaskController extends Controller
 
     public function edit (Request $request) 
     {
-        $id = $request->input('id');
+        $validated = $request->validate([
+            'id' => 'required|exists:tasks,id'
+        ]);
 
-        if (isset($id)) {
-            $tasks = Task::where('id', $id);
-            if ($tasks->count()) {
-                $task = $tasks->first();
-                return view('task/edit', compact('task'));
-            }
+        if ($validated) {
+            $task = Task::where('id', $request->id)->first();
+            return view('task/edit', compact('task'));
         }
 
         return redirect('/');
@@ -31,13 +30,15 @@ class TaskController extends Controller
 
     public function create (Request $request) 
     {
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $validated = $request->validate([
+            'title' => 'required|max:64',
+            'content' => 'required|max:256'
+        ]);
 
-        if (isset($title, $content)) {
+        if ($validated) {
             Task::create([
-                'title' => $title,
-                'content' => $content
+                'title' => $request->title,
+                'content' => $request->content
             ]);
         }
 
@@ -46,18 +47,17 @@ class TaskController extends Controller
 
     public function update (Request $request) 
     {
-        $id = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $validated = $request->validate([
+            'id' => 'required|exists:tasks,id',
+            'title' => 'required|max:64',
+            'content' => 'required|max:256'
+        ]);
 
-        if (isset($id, $title, $content)) {
-            $task = Task::where('id', $id);
-            if ($task->count()) {
-                Task::where('id', $id)->update([
-                    'title' => $title,
-                    'content' => $content
-                ]);
-            }
+        if ($validated) {
+            Task::where('id', $request->id)->update([
+                'title' => $request->title,
+                'content' => $request->content
+            ]);
         }
 
         return redirect('/');
@@ -65,13 +65,12 @@ class TaskController extends Controller
 
     public function delete (Request $request) 
     {
-        $id = $request->input('id');
+        $validated = $request->validate([
+            'id' => 'required|exists:tasks,id'
+        ]);
 
-        if (isset($id)) {
-            $task = Task::where('id', $id);
-            if ($task->count()) {
-                Task::where('id', $id)->delete();
-            }
+        if ($validated) {
+            Task::where('id', $request->id)->delete();
         }
 
         return redirect('/');
