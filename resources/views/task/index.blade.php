@@ -42,7 +42,7 @@
                     </tr>
 
                     <tr>
-                        <td>{{ $task->content }}</td>
+                        <td>{!! $task->content !!}</td>
                     </tr>
                 @endforeach
             </tbody>

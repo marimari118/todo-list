@@ -15,6 +15,10 @@ class TaskController extends Controller
     {
         $tasks = Task::all();
 
+        foreach ($tasks as $task) {
+            $task->content = nl2br(htmlspecialchars($task->content));
+        }
+
         return view('task/index', compact('tasks'));
     }
 
