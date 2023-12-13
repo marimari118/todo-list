@@ -15,9 +15,10 @@ class TaskController extends Controller
     {
         $tasks = Task::all();
 
+        // 検索機能の実装
         if (isset($request->search)) {
-            $cond = implode(' and ', array_map(function($search){
-                return '(title LIKE ? or content LIKE ?)';
+            $cond = implode(' AND ', array_map(function($search){
+                return '(title LIKE ? OR content LIKE ?)';
             }, explode(' ', $request->search)));
 
             $searchs = [];
@@ -28,7 +29,7 @@ class TaskController extends Controller
 
             $tasks = Task::whereRaw($cond, $searchs)->get();
         }
-
+        
         foreach ($tasks as $task) {
             $task->content = nl2br(htmlspecialchars($task->content));
         }
