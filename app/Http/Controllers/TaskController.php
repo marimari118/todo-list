@@ -11,9 +11,23 @@ class TaskController extends Controller
     const VALIDATE_TITLE = 'required|max:64';
     const VALIDATE_CONTENT = 'required|max:256';
 
-    public function index () 
+    public function index (Request $request) 
     {
         $tasks = Task::all();
+
+        if (isset($request->search)) {
+            $cond = implode(' and ', array_map(function($search){
+                return '(title LIKE ? or content LIKE ?)';
+            }, explode(' ', $request->search)));
+
+            $searchs = [];
+            foreach (explode(' ', $request->search) as $search) {
+                $search = "%{$search}%";
+                $searchs += [$search, $search];
+            }
+
+            $tasks = Task::whereRaw($cond, $searchs)->get();
+        }
 
         foreach ($tasks as $task) {
             $task->content = nl2br(htmlspecialchars($task->content));
