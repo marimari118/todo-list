@@ -12,6 +12,14 @@
     </header>
 
     <main>
+        <form name="search" class="input-group p-2" action="/">
+            @csrf
+            <input type="text" class="form-control rounded-start" name="search" placeholder="キーワードを入力">
+            <button type="button" class="btn btn-outline-success" onclick="document.search.submit();">
+                <span class="bi-search"></span>
+            </button>
+        </form>
+        
         <table class="table table-striped table-bordered mb-2">
             <thead>
                 <tr>
