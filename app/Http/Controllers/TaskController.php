@@ -23,8 +23,8 @@ class TaskController extends Controller
 
             $searchs = [];
             foreach (explode(' ', $request->search) as $search) {
-                $search = "%{$search}%";
-                $searchs += [$search, $search];
+                $search = '%' . addcslashes($search, '%_\\') . '%';
+                array_push($searchs, $search, $search);
             }
 
             $tasks = Task::whereRaw($cond, $searchs)->get();
