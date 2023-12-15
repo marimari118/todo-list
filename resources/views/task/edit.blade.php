@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <title>Todo List</title>
+    @include('task.head', ['title' => 'ToDo List - Edit'])
 </head>
 <body>
-    <header class="p-2 bg-dark">
-        <h1 class="h2 m-0 ms-2 text-white"><a class="text-decoration-none text-white" href="/">Todo List</a></h1>
-    </header>
+    @include('task.header')
 
     <main>
         <form class="p-2" action="/update" method="POST">
