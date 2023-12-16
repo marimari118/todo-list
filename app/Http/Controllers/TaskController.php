@@ -13,21 +13,19 @@ class TaskController extends Controller
 
     public function index (Request $request) 
     {
-        $tasks = Task::all();
-
         // 検索機能の実装
         if (isset($request->search)) {
-            $cond = implode(' AND ', array_map(function($search){
-                return '(title LIKE ? OR content LIKE ?)';
-            }, explode(' ', $request->search)));
+            $query = Task::query();
 
-            $searchs = [];
             foreach (explode(' ', $request->search) as $search) {
                 $search = '%' . addcslashes($search, '%_\\') . '%';
-                array_push($searchs, $search, $search);
+                $query->where('title', 'LIKE', $search)->orWhere('content', 'LIKE',$search);
             }
 
-            $tasks = Task::whereRaw($cond, $searchs)->get();
+            $tasks = $query->get();
+            
+        } else {
+            $tasks = Task::all();
         }
         
         foreach ($tasks as $task) {
