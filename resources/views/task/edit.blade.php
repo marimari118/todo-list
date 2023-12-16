@@ -23,5 +23,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </main>
+
+    @include('task.footer')
 </body>
 </html>
