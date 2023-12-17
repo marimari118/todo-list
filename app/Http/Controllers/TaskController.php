@@ -19,7 +19,7 @@ class TaskController extends Controller
 
             foreach (explode(' ', $request->search) as $search) {
                 $search = '%' . addcslashes($search, '%_\\') . '%';
-                $query->where('title', 'LIKE', $search)->orWhere('content', 'LIKE',$search);
+                $query->where('title', 'LIKE', $search)->orWhere('content', 'LIKE', $search);
             }
 
             $tasks = $query->get();
@@ -32,67 +32,58 @@ class TaskController extends Controller
             $task->content = nl2br(htmlspecialchars($task->content));
         }
 
-        return view('task/index', compact('tasks'));
+        return view('/task/index', compact('tasks'));
     }
 
     public function edit (Request $request) 
     {
-        $validated = $request->validate([
+        $request->validate([
             'id' => self::VALIDATE_ID
         ]);
 
-        if ($validated) {
-            $task = Task::where('id', $request->id)->first();
-            return view('task/edit', compact('task'));
-        }
-
-        return redirect('/');
+        $task = Task::where('id', $request->id)->first();
+        
+        return view('/task/edit', compact('task'));
     }
 
     public function create (Request $request) 
     {
-        $validated = $request->validate([
+        $request->validate([
             'title' => self::VALIDATE_TITLE,
             'content' => self::VALIDATE_CONTENT
         ]);
 
-        if ($validated) {
-            Task::create([
-                'title' => $request->title,
-                'content' => $request->content
-            ]);
-        }
+        Task::create([
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
 
         return redirect('/');
     }
 
     public function update (Request $request) 
     {
-        $validated = $request->validate([
+        $request->validate([
             'id' => self::VALIDATE_ID,
             'title' => self::VALIDATE_TITLE,
             'content' => self::VALIDATE_CONTENT
         ]);
 
-        if ($validated) {
-            Task::where('id', $request->id)->update([
-                'title' => $request->title,
-                'content' => $request->content
-            ]);
-        }
+        Task::where('id', $request->id)->update([
+            'title' => $request->title,
+            'content' => $request->content
+        ]);
 
         return redirect('/');
     }
 
     public function delete (Request $request) 
     {
-        $validated = $request->validate([
+        $request->validate([
             'id' => self::VALIDATE_ID
         ]);
 
-        if ($validated) {
-            Task::where('id', $request->id)->delete();
-        }
+        Task::where('id', $request->id)->delete();
 
         return redirect('/');
     }
