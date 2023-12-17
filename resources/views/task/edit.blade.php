@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    @include('task.head', ['title' => 'ToDo List - Edit'])
+    @include('task.includes.head', ['title' => 'ToDo List - Edit'])
 </head>
 <body>
-    @include('task.header')
+    @include('task.includes.header')
 
     <main>
         <form class="p-2" action="/update" method="POST">
@@ -24,6 +24,6 @@
         </form>
     </main>
 
-    @include('task.footer')
+    @include('task.includes.footer')
 </body>
 </html>

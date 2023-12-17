@@ -13,15 +13,18 @@ class TaskController extends Controller
 
     public function index (Request $request) 
     {
-        $tasks = Task::searchByQuery($request->search);
+        [$tasks, $count, $page] = Task::searchByQuery($request->search, $request->page);
         
         foreach ($tasks as $task) {
             $task->content = nl2br(htmlspecialchars($task->content));
         }
 
         return view('/task/index', [
+            'search' => $request->search,
             'tasks' => $tasks,
-            'search' => $request->search
+            'page' => $page,
+            'count' => $count,
+            'max_page' => ceil($count / Task::MAX_PER_PAGE)
         ]);
     }
 

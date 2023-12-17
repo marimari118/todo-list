@@ -10,17 +10,20 @@ class Task extends Model
 {
     use HasFactory;
 
+    const MAX_PER_PAGE = 20;
+
     protected $fillable = [
         'title',
         'content'
     ];
 
-    public static function searchByQuery(string|null $query = null) : Collection {
+    public static function searchByQuery(string|null $query = null, int|null $page = 1) : array {
+
+        $q = Task::query();
 
         // 検索機能の実装
         if (isset($query)) {
             
-            $q = Task::query();
             $searchs = [];
 
             $i = 0;
@@ -43,11 +46,14 @@ class Task extends Model
                     $query->where('title', 'LIKE', $temp)->orWhere('content', 'LIKE', $temp);
                 });
             }
-
-            return $q->get();
-            
-        } else {
-            return Task::all();
         }
+        
+        $count = $q->count();
+
+        return [
+            $q->offset(($page - 1) * self::MAX_PER_PAGE)->limit(self::MAX_PER_PAGE)->get(),
+            $count,
+            $page
+        ];
     } 
 }

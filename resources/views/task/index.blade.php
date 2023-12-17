@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    @include('task.head', ['title' => 'ToDo List'])
+    @include('task.includes.head', ['title' => 'ToDo List'])
 </head>
 <body>
-    @include('task.header')
+    @include('task.includes.header')
     
     <main>
         <form name="search" class="input-group p-2" action="/">
@@ -16,8 +16,34 @@
         </form>
 
         @if(isset($search) && $search != '')
-            <div class="p-2">{{ $search }} の検索結果</div>
+            <div class="p-2">「{{ $search }}」の検索結果: {{ $count }}件</div>
+        @else
+            <div class="p-2">すべてのタスク: {{ $count }}件</div>
         @endif
+        
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="/?search={{ $search }}&page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                @php
+                    $pagenation_max = min($page + 2, $max_page);
+                @endphp
+
+                @for($i = max($page - 2, 1); $i <= $pagenation_max; $i++)
+                    <li class="page-item"><a class="page-link" href="/?search={{ $search }}&page={{ $i }}">{{ $i }}</a></li>
+                @endfor
+                
+                <li class="page-item">
+                    <a class="page-link" href="/?search={{ $search }}&page={{ $max_page }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         
         <table class="table table-striped table-bordered mb-2">
             <thead>
@@ -39,6 +65,7 @@
                                     <input type="hidden" name="id" value="{{ $task->id }}">
                                     <input class="btn p-0 px-1 bg-secondary text-white" type="submit" value="Edit">
                                 </form>
+
                                 <form action="/delete" method="post">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $task->id }}">
@@ -71,6 +98,6 @@
         </form>
     </main>
 
-    @include('task.footer')
+    @include('task.includes.footer')
 </body>
 </html>
