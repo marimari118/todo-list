@@ -1,6 +1,10 @@
 <form class="p-2" action="{{ $target }}" method="POST">
     @csrf
-    <input type="hidden" name="id" value="{{ $task->id }}">
+
+    @if(isset($task->id))
+        <input type="hidden" name="id" value="{{ $task->id }}">
+    @endif
+    
     <div class="mb-3">
         <div class="mb-2">
             <label class="form-label" for="title">Title</label>
