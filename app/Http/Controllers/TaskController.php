@@ -13,26 +13,16 @@ class TaskController extends Controller
 
     public function index (Request $request) 
     {
-        // 検索機能の実装
-        if (isset($request->search)) {
-            $query = Task::query();
-
-            foreach (explode(' ', $request->search) as $search) {
-                $search = '%' . addcslashes($search, '%_\\') . '%';
-                $query->where('title', 'LIKE', $search)->orWhere('content', 'LIKE', $search);
-            }
-
-            $tasks = $query->get();
-            
-        } else {
-            $tasks = Task::all();
-        }
+        $tasks = Task::searchByQuery($request->search);
         
         foreach ($tasks as $task) {
             $task->content = nl2br(htmlspecialchars($task->content));
         }
 
-        return view('/task/index', compact('tasks'));
+        return view('/task/index', [
+            'tasks' => $tasks,
+            'search' => $request->search
+        ]);
     }
 
     public function edit (Request $request) 
@@ -42,7 +32,7 @@ class TaskController extends Controller
         ]);
 
         $task = Task::where('id', $request->id)->first();
-        
+
         return view('/task/edit', compact('task'));
     }
 
