@@ -15,7 +15,7 @@ class Task extends Model
         'content'
     ];
 
-    public static function searchByQuery(string|null $query = "") : Collection {
+    public static function searchByQuery(string|null $query = null) : Collection {
 
         // 検索機能の実装
         if (isset($query)) {
