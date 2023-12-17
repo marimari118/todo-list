@@ -15,7 +15,7 @@ use App\Http\Controllers\TaskController;
 */
 
 Route::get('/', [TaskController::class, 'index']);
-Route::post('/edit', [TaskController::class, 'edit']);
+Route::get('/edit', [TaskController::class, 'edit']);
 Route::post('/create', [TaskController::class, 'create']);
 Route::post('/update', [TaskController::class, 'update']);
 Route::post('/delete', [TaskController::class, 'delete']);

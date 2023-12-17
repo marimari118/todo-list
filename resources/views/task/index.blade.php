@@ -60,13 +60,13 @@
                         <td class="d-flex justify-content-between">
                             <span>{{ $task->title }}</span>
                             <div class="d-flex gap-1">
-                                <form action="/edit" method="post">
+                                <form action="/edit">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $task->id }}">
                                     <input class="btn p-0 px-1 bg-secondary text-white" type="submit" value="Edit">
                                 </form>
 
-                                <form action="/delete" method="post">
+                                <form action="/delete" method="POST">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $task->id }}">
                                     <input class="btn p-0 px-1 bg-danger text-white" type="submit" value="Delete">
@@ -81,21 +81,8 @@
                 @endforeach
             </tbody>
         </table>
-
-        <form class="p-2" action="/create" method="POST">
-            @csrf
-            <div class="mb-3">
-                <div class="mb-2">
-                    <label class="form-label" for="title">Title</label>
-                    <input id="title" class="form-control" type="text" name="title">
-                </div>
-                <div class="mb-2">
-                    <label class="form-label" for="content">Content</label>
-                    <textarea id="content" class="form-control" name="content" rows="8"></textarea>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        
+        @include('task.includes.form', ['target' => '/create'])
     </main>
 
     @include('task.includes.footer')
